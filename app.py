@@ -86,7 +86,7 @@ with st.sidebar:
 
 
 # Load data
-    df = pd.read_csv("https://github.com/ranudiperera/DSPL-ICW/blob/main/cleaned_exports.csv")
+    df = pd.read_csv("cleaned_exports.csv")
 
 # Overview
 if page == "Overview":
