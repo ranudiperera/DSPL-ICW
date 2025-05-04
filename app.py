@@ -4,22 +4,22 @@ import plotly.express as px
 import calendar
 from pandas.api.types import CategoricalDtype
 
-# Configuration
+#Configuration
 st.set_page_config(
     page_title="Sri Lanka Agricultural Exports",
     layout="wide",
     initial_sidebar_state="expanded"
 )
-# Caches the data after first load
+#Caches the data after first load
 @st.cache_data(show_spinner=False) 
 def load_export_data(path: str) -> pd.DataFrame:
     df = pd.read_csv(path)
     return df
 
-# Load the cleaned exports CSV data
+#Load the cleaned exports CSV data
 df = load_export_data("./cleaned_exports.csv")
 
-# Global CSS
+#Global CSS
 st.markdown("""
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600&display=swap');
@@ -79,16 +79,16 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-# Sidebar navigation
+#Sidebar navigation
 with st.sidebar:
     st.image("https://upload.wikimedia.org/wikipedia/commons/1/11/Flag_of_Sri_Lanka.svg", width=70)
     st.title("🌾 Sri Lanka Exports")
 
-    # Create the selectbox navigation
+    #Create the selectbox navigation
     page = st.selectbox("Navigate", ["Overview", "Trends", "About"])
 
 
-# Overview
+#Overview
 if page == "Overview":
     st.markdown("<h1 style='text-align: center;'>🌾 Sri Lanka Agricultural Exports</h1>", unsafe_allow_html=True)
     st.markdown("<h2 style='text-align: center;'>Overview</h2>", unsafe_allow_html=True)
@@ -157,9 +157,9 @@ if page == "Overview":
     )
     st.plotly_chart(fig, use_container_width=True)
 
-# Trends Page
+#Trends Page
 elif page == "Trends":
-    st.markdown("<h2 style='text-align: center;'>📈 Production and Export Trends</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='text-align: center;'>Production and Export Trends</h2>", unsafe_allow_html=True)
 
     st.markdown("<h3 style='text-align: center;'>Performance Metrics</h3>", unsafe_allow_html=True)
     total_production = df['Production (Mn.Kg/Nuts)'].sum()
@@ -188,15 +188,18 @@ elif page == "Trends":
                 help="Choose one or more products to filter the data."
             )
         with filter_col2:
-            year_filter = st.multiselect(
-                "Select Year(s):", 
-                options=sorted(df['Year'].unique()), 
-                default=sorted(df['Year'].unique()),
-                help="Choose one or more years to filter the data."
+            year_filter = st.slider(
+            "Select Year Range:", 
+            min_value=2015, 
+            max_value=2024, 
+            value=(2015, 2024), 
+            step=1,
+            help="Select a range of years to filter the data."
             )
+        st.markdown("<p style='color: white;'>Click the button below to view the graph!</p>", unsafe_allow_html=True)
         apply_button = st.form_submit_button(label='Apply Filters') 
 
-    # Only show charts after clicking apply
+    #Only show charts after clicking apply
     if apply_button:
         filtered_df = df[(df['Product'].isin(product_filter)) & (df['Year'].isin(year_filter))]
 
@@ -208,7 +211,7 @@ elif page == "Trends":
         with tab1:
             yearly_data = filtered_df.groupby(['Year', 'Product'])[['Production (Mn.Kg/Nuts)', 'Exports (US Mn)']].sum().reset_index()
 
-            # Line chart for Production
+            #Line chart for Production
             st.subheader("Line Chart: Annual Production")
             fig1_prod = px.line(
                 yearly_data, 
@@ -218,14 +221,14 @@ elif page == "Trends":
                 markers=True,
                 title="Yearly Trends of Production by Product",
                 labels={'Production (Mn.Kg/Nuts)': 'Production (Mn.Kg/Nuts)'},
-                color_discrete_sequence=px.colors.qualitative.Dark24  # Darker shades for lines
+                color_discrete_sequence=px.colors.qualitative.Dark24  
             )
             fig1_prod.update_layout(
                 title=dict(
                     text="<b>Yearly Trends of Production by Product</b>",
                     x=0.5,
                     xanchor='center',
-                    font=dict(size=24, color="dark grey", family="Arial")  # Bigger font and dark gray color
+                    font=dict(size=24, color="dark grey", family="Arial")  
                 ),
                 xaxis_title="Year",
                 yaxis_title="Production (Mn.Kg/Nuts)",
@@ -237,7 +240,7 @@ elif page == "Trends":
             )
             st.plotly_chart(fig1_prod, use_container_width=True)
 
-            # Line chart for Exports
+            #Line chart for Exports
             st.subheader("Line Chart: Annual Exports")
             fig1_exp = px.line(
                 yearly_data, 
@@ -267,13 +270,13 @@ elif page == "Trends":
             st.plotly_chart(fig1_exp, use_container_width=True)
             
         with tab2:
-            # Calculate average production for each month across all years and products
+            #Calculate average production for each month across all years and products
             avg_monthly_production = filtered_df.groupby(['Month'])['Production (Mn.Kg/Nuts)'].mean().reset_index()
-            month_order = list(calendar.month_name[1:])  # Define month_order as a list of month names
+            month_order = list(calendar.month_name[1:])  
             avg_monthly_production['Month'] = pd.Categorical(avg_monthly_production['Month'], categories=month_order, ordered=True)
-            avg_monthly_production = avg_monthly_production.sort_values('Month')  # Sort by calendar order
+            avg_monthly_production = avg_monthly_production.sort_values('Month')  
 
-            # Create bar chart for average monthly production
+            #Create bar chart for average monthly production
             st.subheader("Bar Chart: Average Monthly Production")
             fig3 = px.bar(
                 avg_monthly_production,
@@ -281,17 +284,17 @@ elif page == "Trends":
                 y='Production (Mn.Kg/Nuts)',
                 title="Bar Chart of Average Monthly Production",
                 labels={'Production (Mn.Kg/Nuts)': 'Average Production (Mn.Kg/Nuts)', 'Month': 'Month'},
-                color_discrete_sequence=['#4683B7']  # Set bars to light green
+                color_discrete_sequence=['#4683B7']  
             )
             fig3.update_traces(
-                marker=dict(line=dict(color='#006400', width=1.5))  # Add markers with darker green borders
+                marker=dict(line=dict(color='#006400', width=1.0))  
             )
             fig3.update_layout(
                 title=dict(
                     text="<b>Bar Chart of Average Monthly Production</b>",
                     x=0.5,
                     xanchor='center',
-                    font=dict(size=24, color="white", family="Arial")  # Bigger font and black color
+                    font=dict(size=24, color="white", family="Arial")  
                 ),
                 xaxis_title="Month",
                 yaxis_title="Average Production (Mn.Kg/Nuts)",
@@ -300,14 +303,14 @@ elif page == "Trends":
                 xaxis=dict(
                     title_font=dict(color="white"),
                     tickfont=dict(color="white"),
-                    showline=True,  # Add x-axis line
+                    showline=True,  
                     linewidth=1,
                     linecolor="white"
                 ),
                 yaxis=dict(
                     title_font=dict(color="white"),
                     tickfont=dict(color="white"),
-                    showline=True,  # Add y-axis line
+                    showline=True,  
                     linewidth=1,
                     linecolor="white"
                 ),
@@ -317,7 +320,7 @@ elif page == "Trends":
             )
             st.plotly_chart(fig3, use_container_width=True)
 
-            # Create bar chart for average monthly exports
+            #Create bar chart for average monthly exports
             avg_monthly_exports = filtered_df.groupby(['Month'])['Exports (US Mn)'].mean().reset_index()
             avg_monthly_exports['Month'] = pd.Categorical(avg_monthly_exports['Month'], categories=month_order, ordered=True)
             avg_monthly_exports = avg_monthly_exports.sort_values('Month')
@@ -329,17 +332,17 @@ elif page == "Trends":
                 y='Exports (US Mn)',
                 title="Bar Chart of Average Monthly Exports",
                 labels={'Exports (US Mn)': 'Average Exports (US Mn)', 'Month': 'Month'},
-                color_discrete_sequence=['#4683B7']  # Set bars to light green
+                color_discrete_sequence=['#4683B7']  
             )
             fig4.update_traces(
-                marker=dict(line=dict(color='#006400', width=1.5))  # Add markers with darker green borders
+                marker=dict(line=dict(color='#006400', width=1.5))  
             )
             fig4.update_layout(
                 title=dict(
                     text="<b>Bar Chart of Average Monthly Exports</b>",
                     x=0.5,
                     xanchor='center',
-                    font=dict(size=24, color="white", family="Arial")  # Bigger font and black color
+                    font=dict(size=24, color="white", family="Arial")  
                 ),
                 xaxis_title="Month",
                 yaxis_title="Average Exports (US Mn)",
@@ -348,14 +351,14 @@ elif page == "Trends":
                 xaxis=dict(
                     title_font=dict(color="white"),
                     tickfont=dict(color="white"),
-                    showline=True,  # Add x-axis line
+                    showline=True,  
                     linewidth=1,
                     linecolor="white"
                 ),
                 yaxis=dict(
                     title_font=dict(color="white"),
                     tickfont=dict(color="white"),
-                    showline=True,  # Add y-axis line
+                    showline=True,  
                     linewidth=1,
                     linecolor="white"
                 ),
@@ -372,8 +375,8 @@ elif page == "Trends":
             filtered_df,
             x='Production (Mn.Kg/Nuts)',
             y='Exports (US Mn)',
-            size='Year',  # Bubble size representing year
-            color='Product',  # Color representing different products
+            size='Year',  
+            color='Product', 
             hover_name='Product',
             title="Production vs Exports Bubble Chart",
             labels={'Production (Mn.Kg/Nuts)': 'Production (Mn.Kg/Nuts)', 'Exports (US Mn)': 'Exports (US Mn)'},
@@ -402,15 +405,15 @@ elif page == "Trends":
             st.plotly_chart(fig4, use_container_width=True)
 
         with tab4:
-            # Ensure months are in calendar order
+            #Ensure months are in calendar order
             filtered_df['Month_Parsed'] = pd.Categorical(
                 filtered_df['Month'], categories=month_order, ordered=True
             )
 
-            # Group data by Month and Product for cumulative exports
+            #Group data by Month and Product for cumulative exports
             cumulative_exports = filtered_df.groupby(['Month_Parsed', 'Product'])['Exports (US Mn)'].sum().reset_index()
 
-            # Create stacked area chart
+            #Create stacked area chart
             st.markdown("<h3 style='text-align: center; color: white;'>Stacked Area Chart: Cumulative Monthly Exports</h3>", unsafe_allow_html=True)
             fig5 = px.area(
                 cumulative_exports,
@@ -449,7 +452,7 @@ elif page == "Trends":
             st.plotly_chart(fig5, use_container_width=True)
    
 
-# About Page
+#About Page
 elif page == "About":
     st.markdown("<h1 style='text-align: center;'>About</h1>", unsafe_allow_html=True)
 
