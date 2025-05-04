@@ -16,6 +16,9 @@ def load_export_data(path: str) -> pd.DataFrame:
     df = pd.read_csv(path)
     return df
 
+# Load the cleaned exports CSV data
+df = load_export_data("./cleaned_exports.csv")
+
 # Global CSS
 st.markdown("""
     <style>
@@ -45,7 +48,7 @@ st.markdown("""
         /* Sidebar background image and transparency */
         [data-testid="stSidebar"] {
             background-color: rgba(0,0,0,0.0) !important;
-            background-image: url("https://www.travelmole.com/wp-content/uploads/2022/08/SriLanka.jpg");
+            background-image: url("app/static/images/sidebar_bg.png");
             background-size: cover;
             background-position: center;
         }
@@ -85,9 +88,6 @@ with st.sidebar:
     page = st.radio("Navigate", ["Overview", "Trends", "About"])
 
 
-# Load data
-    df = pd.read_csv("cleaned_exports.csv")
-
 # Overview
 if page == "Overview":
     st.markdown("<h1 style='text-align: center;'>🌾 Sri Lanka Agricultural Exports</h1>", unsafe_allow_html=True)
@@ -112,7 +112,7 @@ if page == "Overview":
             font=dict(size=22, color="dark grey", family="Arial")
         ),
         font=dict(size=18),
-        paper_bgcolor='rgba(255, 255, 255, 0.75)',
+        paper_bgcolor='rgba(0, 0, 0, 0.75)',
         legend=dict(
             orientation="h",
             y=0.5,
@@ -203,7 +203,7 @@ elif page == "Trends":
                 ),
                 xaxis_title="Year",
                 yaxis_title="Production (Mn.Kg/Nuts)",
-                paper_bgcolor='rgba(255, 255, 255, 0.75)',
+                paper_bgcolor='rgba(0, 0, 0, 0.75)',
                 plot_bgcolor='rgba(0, 0, 0, 0)',
                 legend=dict(
                     font=dict(size=16) 
@@ -232,7 +232,7 @@ elif page == "Trends":
                 ),
                 xaxis_title="Year",
                 yaxis_title="Exports (US Mn)",
-                paper_bgcolor='rgba(255, 255, 255, 0.75)',
+                paper_bgcolor='rgba(0, 0, 0, 0.75)',
                 plot_bgcolor='rgba(0, 0, 0, 0)',
                 legend=dict(
                     font=dict(size=16) 
@@ -266,7 +266,7 @@ elif page == "Trends":
                 ),
                 xaxis_title="Month",
                 yaxis_title="Average Production (Mn.Kg/Nuts)",
-                paper_bgcolor='rgba(255, 255, 255, 0.75)',
+                paper_bgcolor='rgba(0, 0, 0, 0.75)',
                 plot_bgcolor='rgba(0, 0, 0, 0)',
                 xaxis=dict(
                     title_font=dict(color="black"),
@@ -305,7 +305,7 @@ elif page == "Trends":
                 ),
                 xaxis_title="Month",
                 yaxis_title="Average Exports (US Mn)",
-                paper_bgcolor='rgba(255, 255, 255, 0.75)',
+                paper_bgcolor='rgba(0, 0, 0, 0.75)',
                 plot_bgcolor='rgba(0, 0, 0, 0)',
                 xaxis=dict(
                     title_font=dict(color="black"),
@@ -352,7 +352,7 @@ elif page == "Trends":
                 title_font=dict(color="black"),
                 tickfont=dict(color="black")
             ),
-            paper_bgcolor='rgba(255, 255, 255, 0.75)',
+            paper_bgcolor='rgba(0, 0, 0, 0.75)',
             plot_bgcolor='rgba(0, 0, 0, 0)'
             )
             st.plotly_chart(fig4, use_container_width=True)
@@ -398,7 +398,7 @@ elif page == "Trends":
                 legend=dict(
                     font=dict(size=14, color="black")
                 ),
-                paper_bgcolor='rgba(255, 255, 255, 0.75)',
+                paper_bgcolor='rgba(0, 0, 0, 0.75)',
                 plot_bgcolor='rgba(0, 0, 0, 0)'
             )
 
@@ -457,6 +457,7 @@ elif page == "About":
     ### Data Source  
     - Custom dataset compiled from the Sri Lanka Central Bank Monthly Economic Indicators 
     - Background image in sidebar: https://www.travelmole.com/wp-content/uploads/2022/08/SriLanka.jpg  
+    - Background image: https://www.pexels.com/photo/scenic-view-of-wheat-field-against-sky-321542            
 
     #### Created By  
     **Ranudi Perera**  
