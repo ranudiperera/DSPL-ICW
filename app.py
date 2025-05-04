@@ -84,14 +84,40 @@ with st.sidebar:
     st.image("https://upload.wikimedia.org/wikipedia/commons/1/11/Flag_of_Sri_Lanka.svg", width=70)
     st.title("🌾 Sri Lanka Exports")
 
-    # Create the radio navigation
-    page = st.radio("Navigate", ["Overview", "Trends", "About"])
+    # Create the selectbox navigation
+    page = st.selectbox("Navigate", ["Overview", "Trends", "About"])
 
 
 # Overview
 if page == "Overview":
     st.markdown("<h1 style='text-align: center;'>🌾 Sri Lanka Agricultural Exports</h1>", unsafe_allow_html=True)
     st.markdown("<h2 style='text-align: center;'>Overview</h2>", unsafe_allow_html=True)
+    st.markdown("""
+    ### Sri Lanka Agricultural Export Dashboard
+
+    This interactive dashboard offers an in-depth visualization of Sri Lanka's agricultural export trends, performance, and product distribution from 2015 to 2024.
+
+    #### Key Focus Areas:
+    - Export Volume and Value by Product  
+    - Trends in Major Export Commodities (Tea, Rubber, Coconut)  
+    - Monthly and Annual Production and Export Patterns
+    - Comparative Analysis of Export Performance
+    - Global Market Distribution  
+    - Seasonal and Annual Export Patterns  
+    - Trade Balance and Economic Impact  
+    - Export Price Fluctuations  
+    - Emerging and Declining Export Categories  
+    - Policy Impacts and Trade Agreements  
+
+    #### Main Features:
+    - Dynamic charts and product-wise insights  
+    - Filters by product category and year 
+    - Time-series trends and growth analysis  
+    - Export value distribution breakdown  
+    - Comparative performance across years and commodities  
+    - Interactive exploration of export destinations  
+    """, unsafe_allow_html=True)
+
     st.write("### Snippet of the Dataset")
     st.dataframe(df.head(20))
     st.write("### Descriptive Statistics")
@@ -255,29 +281,38 @@ elif page == "Trends":
                 y='Production (Mn.Kg/Nuts)',
                 title="Bar Chart of Average Monthly Production",
                 labels={'Production (Mn.Kg/Nuts)': 'Average Production (Mn.Kg/Nuts)', 'Month': 'Month'},
-                color_discrete_sequence=['#3B444B']  # Set a consistent color
+                color_discrete_sequence=['#4683B7']  # Set bars to light green
+            )
+            fig3.update_traces(
+                marker=dict(line=dict(color='#006400', width=1.5))  # Add markers with darker green borders
             )
             fig3.update_layout(
                 title=dict(
                     text="<b>Bar Chart of Average Monthly Production</b>",
                     x=0.5,
                     xanchor='center',
-                    font=dict(size=24, color="black", family="Arial")  # Bigger font and black color
+                    font=dict(size=24, color="white", family="Arial")  # Bigger font and black color
                 ),
                 xaxis_title="Month",
                 yaxis_title="Average Production (Mn.Kg/Nuts)",
                 paper_bgcolor='rgba(0, 0, 0, 0.75)',
                 plot_bgcolor='rgba(0, 0, 0, 0)',
                 xaxis=dict(
-                    title_font=dict(color="black"),
-                    tickfont=dict(color="black")
+                    title_font=dict(color="white"),
+                    tickfont=dict(color="white"),
+                    showline=True,  # Add x-axis line
+                    linewidth=1,
+                    linecolor="white"
                 ),
                 yaxis=dict(
-                    title_font=dict(color="black"),
-                    tickfont=dict(color="black")
+                    title_font=dict(color="white"),
+                    tickfont=dict(color="white"),
+                    showline=True,  # Add y-axis line
+                    linewidth=1,
+                    linecolor="white"
                 ),
                 legend=dict(
-                    font=dict(size=14, color="black")
+                    font=dict(size=14, color="white")
                 )
             )
             st.plotly_chart(fig3, use_container_width=True)
@@ -294,36 +329,45 @@ elif page == "Trends":
                 y='Exports (US Mn)',
                 title="Bar Chart of Average Monthly Exports",
                 labels={'Exports (US Mn)': 'Average Exports (US Mn)', 'Month': 'Month'},
-                color_discrete_sequence=['#3B444B']  # Set a consistent color
+                color_discrete_sequence=['#4683B7']  # Set bars to light green
+            )
+            fig4.update_traces(
+                marker=dict(line=dict(color='#006400', width=1.5))  # Add markers with darker green borders
             )
             fig4.update_layout(
                 title=dict(
                     text="<b>Bar Chart of Average Monthly Exports</b>",
                     x=0.5,
                     xanchor='center',
-                    font=dict(size=24, color="black", family="Arial")  # Bigger font and black color
+                    font=dict(size=24, color="white", family="Arial")  # Bigger font and black color
                 ),
                 xaxis_title="Month",
                 yaxis_title="Average Exports (US Mn)",
                 paper_bgcolor='rgba(0, 0, 0, 0.75)',
                 plot_bgcolor='rgba(0, 0, 0, 0)',
                 xaxis=dict(
-                    title_font=dict(color="black"),
-                    tickfont=dict(color="black")
+                    title_font=dict(color="white"),
+                    tickfont=dict(color="white"),
+                    showline=True,  # Add x-axis line
+                    linewidth=1,
+                    linecolor="white"
                 ),
                 yaxis=dict(
-                    title_font=dict(color="black"),
-                    tickfont=dict(color="black")
+                    title_font=dict(color="white"),
+                    tickfont=dict(color="white"),
+                    showline=True,  # Add y-axis line
+                    linewidth=1,
+                    linecolor="white"
                 ),
                 legend=dict(
-                    font=dict(size=14, color="black")
+                    font=dict(size=14, color="white")
                 )
             )
             st.plotly_chart(fig4, use_container_width=True)
 
 
         with tab3:
-            st.markdown("<h3 style='text-align: center; color: black;'>Bubble Chart: Production vs Exports</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center; color: white;'>Bubble Chart: Production vs Exports</h3>", unsafe_allow_html=True)
             fig4 = px.scatter(
             filtered_df,
             x='Production (Mn.Kg/Nuts)',
@@ -342,15 +386,15 @@ elif page == "Trends":
                 text="<b>Production vs Exports Bubble Chart</b>",
                 x=0.5,
                 xanchor='center',
-                font=dict(size=24, color="black", family="Arial")
+                font=dict(size=24, color="white", family="Arial")
             ),
             xaxis=dict(
-                title_font=dict(color="black"),
-                tickfont=dict(color="black")
+                title_font=dict(color="white"),
+                tickfont=dict(color="white")
             ),
             yaxis=dict(
-                title_font=dict(color="black"),
-                tickfont=dict(color="black")
+                title_font=dict(color="white"),
+                tickfont=dict(color="white")
             ),
             paper_bgcolor='rgba(0, 0, 0, 0.75)',
             plot_bgcolor='rgba(0, 0, 0, 0)'
@@ -367,7 +411,7 @@ elif page == "Trends":
             cumulative_exports = filtered_df.groupby(['Month_Parsed', 'Product'])['Exports (US Mn)'].sum().reset_index()
 
             # Create stacked area chart
-            st.markdown("<h3 style='text-align: center; color: black;'>Stacked Area Chart: Cumulative Monthly Exports</h3>", unsafe_allow_html=True)
+            st.markdown("<h3 style='text-align: center; color: white;'>Stacked Area Chart: Cumulative Monthly Exports</h3>", unsafe_allow_html=True)
             fig5 = px.area(
                 cumulative_exports,
                 x='Month_Parsed',
@@ -383,20 +427,20 @@ elif page == "Trends":
                     text="<b>Cumulative Monthly Exports by Product</b>",
                     x=0.5,
                     xanchor='center',
-                    font=dict(size=24, color="black", family="Arial")
+                    font=dict(size=24, color="white", family="Arial")
                 ),
                 xaxis_title="Month",
                 yaxis_title="Cumulative Exports (US Mn)",
                 xaxis=dict(
-                    title_font=dict(color="black"),
-                    tickfont=dict(color="black")
+                    title_font=dict(color="white"),
+                    tickfont=dict(color="white")
                 ),
                 yaxis=dict(
-                    title_font=dict(color="black"),
-                    tickfont=dict(color="black")
+                    title_font=dict(color="white"),
+                    tickfont=dict(color="white")
                 ),
                 legend=dict(
-                    font=dict(size=14, color="black")
+                    font=dict(size=14, color="white")
                 ),
                 paper_bgcolor='rgba(0, 0, 0, 0.75)',
                 plot_bgcolor='rgba(0, 0, 0, 0)'
@@ -407,7 +451,7 @@ elif page == "Trends":
 
 # About Page
 elif page == "About":
-    st.markdown("<h1 style='text-align: center;'>📖 About</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>About</h1>", unsafe_allow_html=True)
 
     st.markdown("""
     <div style='color: white; font-size: 16px; line-height: 1.7;'>
@@ -428,12 +472,11 @@ elif page == "About":
     st.markdown("<h3 style='text-align: left; color: white;'>About This Project</h3>", unsafe_allow_html=True)
 
     st.markdown("""
-    <div style='color: white; font-size: 16px; line-height: 1.7;    background-color: #01010190;
+    <div style='color: white; font-size: 16px; line-height: 1.7; background-color: #01010190;
             padding: 10px;
             border-radius: 8px;
             margin-top: 20px;
             margin-bottom: 20px;'>
-
 
     Built using **Streamlit**, it includes visualizations like:
     - Pie charts for export distribution
@@ -443,8 +486,18 @@ elif page == "About":
     - Stacked area charts for cumulative monthly exports
     - Interactive filters for product and year selection
     - Responsive design for various devices
+
     The dashboard is designed to be user-friendly, allowing users to explore the data interactively. It provides a comprehensive overview of Sri Lanka's agricultural exports, focusing on Tea, Coconut, and Rubber.
-  
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style='color: white; font-size: 16px; line-height: 1.7; background-color: #01010190;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 20px;'>
+
     ### Technologies Used
     - **Streamlit**: For building the web application.
     - **Plotly**: For creating interactive visualizations.
@@ -453,11 +506,29 @@ elif page == "About":
     - **HTML/CSS**: For custom styling and layout.
     - **GitHub**: For version control and collaboration.
     - **Google Colab**: For initial data analysis and cleaning.
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style='color: white; font-size: 16px; line-height: 1.7; background-color: #01010190;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 20px;'>
 
     ### Data Source  
     - Custom dataset compiled from the Sri Lanka Central Bank Monthly Economic Indicators 
     - Background image in sidebar: https://www.travelmole.com/wp-content/uploads/2022/08/SriLanka.jpg  
     - Background image: https://www.pexels.com/photo/scenic-view-of-wheat-field-against-sky-321542            
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div style='color: white; font-size: 16px; line-height: 1.7; background-color: #01010190;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 20px;
+            margin-bottom: 20px;'>
 
     #### Created By  
     **Ranudi Perera**  
