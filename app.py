@@ -34,7 +34,7 @@ st.markdown("""
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: url("/app/static/images/bg.jpg");
+            background-image: url("/app/static/images/bg.jpeg");
             background-size: cover;
             background-position: center;
             opacity: 0.2; /* Adjust the opacity as needed */
