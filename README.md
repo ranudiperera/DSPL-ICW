@@ -9,7 +9,7 @@ The dashboard provides an interactive and visual exploration of Sri Lanka's agri
 
 ## Deployment
 Deployed on Streamlit Community Cloud:  
-🔗 [Open in Streamlit](https://your-streamlit-app-link-here.com)
+🔗 [Open in Streamlit](https://srilankaexports.streamlit.app)
 
 ---
 
